@@ -292,6 +292,18 @@ if NOT "%tag_text%"=="" (
 ) else (
 	goto:project_modifs_menu
 )
+git pull
+if %errorlevel% NEQ 0 (
+	call "%associed_language_script%" "get_last_remote_project_release_publish_error"
+	pause
+	goto:project_modifs_menu
+)
+git submodule update --init --recursive
+if %errorlevel% NEQ 0 (
+	call "%associed_language_script%" "get_last_remote_project_release_publish_error"
+	pause
+	goto:project_modifs_menu
+)
 git tag -a "%tag_number%" -m "%tag_text%"
 if %errorlevel% NEQ 0 (
 	call "%associed_language_script%" "local_tag_create_error"

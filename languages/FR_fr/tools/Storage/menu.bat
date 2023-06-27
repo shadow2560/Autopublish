@@ -165,6 +165,10 @@ goto:eof
 set /p "tag_text=Texte du titre du tag, laisser vide pour revenir au menu principal: "
 goto:eof
 
+:get_last_remote_project_release_publish_error
+echo Une erreur s'est produite durant la récupération de la dernière version du projet distant, la publication de la release ne peut pas continuer.
+goto:eof
+
 :local_tag_create_error
 echo Une erreur s'est produite durant la création du tag local, impossible de continuer.
 goto:eof
