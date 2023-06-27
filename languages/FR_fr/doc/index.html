@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html lang="fr-FR">
+<head>
+<title>Documentation Shadow256 Autopublish</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" media="screen" type="text/css" href="style.css" title="default" />
+<script type="text/javascript" src="menu.js"></script>
+</head>
+<body>
+<div class="menu" id="menu" role="menu">
+</div>
+<script type="text/javascript">load_menu();</script>
+<div class="contenu" id="contenu" role="main">
+<h1>Documentation Shadow256 Autopublish</h1>
+&nbsp;
+<h2>Introduction</h2>
+&nbsp;
+<p>
+Ceci est un ensemble de scripts batch automatisant beaucoup de choses pour publier des changements ou obtenir des infos sur des projets Github.
+<br/><br/>
+Cette documentation a pour but d'orienter l'utilisateur pour faire fonctionner au mieux ces outils. Le projet Github se trouve sur <a target="_blank" href="https://github.com/shadow2560/Autopublish/">cette page</a>.
+<br/><br/>
+Ce script est utilisable sur Windows 7 32 et 64 bits ainsi que sur les versions supérieurs (Windows Vista non testé mais devrait fonctionner).
+<br/><br/>
+Notez que je ne pourrai être tenu responsable en cas de dommages résultant de l'utilisation de ce logiciel et de tout ce qu'il contient.
+<br/><br/>
+L'ensemble de mon travail est soumis à la licence GPL V3 (tous les scripts ou programme portant la mention "by shadow256" dans le code source ou dans le programme en lui-même). Les fichiers de traduction sont aussi soumis à cette licence. Le reste des outils sont sous la licence de leurs auteurs.
+<br/><br/>
+Pour participer à la traduction, veuillez lire <a href="files/translate.html">cette partie de la documentation</a>.
+</p>
+&nbsp;
+<h2>Fonctionnalités</h2>
+&nbsp;
+<ul>
+<li>Mise à jour automatique du script et de ses fonctionnalités (si souhaitée).</li>
+<li>Support du multi-langues (certaines parties ne peuvent pas être traduites car le cli Github n'est pas multi-langues).</li>
+<li>Sauvegarde, restauration et réinitialisation des fichiers importants utilisés par le script.</li>
+<li>Sauvegarde des infos des projets Github dans des profiles pour pouvoir en gérer plusieurs via le script.</li>
+<li>Publier ou effectuer des commits (les commits sont globaux, la commande "git add ." est toujours utilisée pour l'instant), effectuer des releases ou exécuter des workflows sur un projet.</li>
+<li>Obtenir les logs, aller sur la page web du projet ou de sa dernière releases, afficher un workflow ou son log, synchroniser la version local avec la version distante du projet.</li>
+<li>Uploader des fichiers via FTP (gestion de profiles de serveur FTP incluse).</li>
+<li>Obtenir le SHA256 d'un fichier.</li>
+<li>Et encore d'autres choses...</li>
+</ul>
+&nbsp;
+<h2>Bugs connus</h2>
+&nbsp;
+<ul>
+<li>L'utilisation de guillemets,  de  parenthèses et de quelques autres signes dans les entrées utilisateurs fait planter le script.</li>
+<li>L'utilisation du signe "!" pose des soucis, dans la plupart des cas sauf lors de l'entrée de mots de passe ne pas utiliser ce signe dans les entrées utilisateur.</li>
+<li>Lorsqu'une sortie console faite par un "echo" est effectuée, cela produit une erreur dans le fichier log. L'encodage en UTF-8 semble être à l'origine de ce problème mais je n'ai pas trouvé comment le résoudre pour l'instant.</li>
+</ul>
+&nbsp;
+<h2>Fonctions à venir</h2>
+&nbsp;
+<ul>
+<li>Améliorer et optimiser le script de mise à jour automatique.</li>
+<li>Mise en place d'une méthode plus ou moins automatisée permettant de revenir à la ligne avant un mot qui atteindrait la largeur de la fenêtre, pour éviter de couper ce dernier.</li>
+<li>D'autres choses que vous pourriez me suggérer.</li>
+</ul>
+&nbsp;
+<h2>Téléchargement</h2>
+&nbsp;
+<p>
+Vous pouvez télécharger la dernière version base sur <a target="_blank" href="https://github.com/shadow2560/Autopublish/releases">cette page</a> (elle ajoutera les fonctionnalités au fur et à mesure de leurs utilisations) ou vous pouvez télécharger la dernière version complète du projet en <a href="https://github.com/shadow2560/Autopublish/archive/main.zip">cliquant ici</a>.
+</p>
+&nbsp;
+<h2>Changelog</h2>
+&nbsp;
+<p>
+Voir <a target="_blank" href="files/changelog.html">cette page de la documentation</a>.
+</p>
+&nbsp;
+<h2>Crédits</h2>
+&nbsp;
+<p>
+Voir <a target="_blank" href="files/credits.html">cette page</a>.
+</p>
+</div>
+</body>
+</html>
