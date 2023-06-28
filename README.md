@@ -10,7 +10,7 @@ La licence GPL V3 s'applique sur les scripts batch se trouvant à la racine de c
 * Support du multi-langues (certaines parties ne peuvent pas être traduites car le cli Github n'est pas multi-langues).
 * Sauvegarde, restauration et réinitialisation des fichiers importants utilisés par le script.
 * Sauvegarde des infos des projets Github dans des profiles pour pouvoir en gérer plusieurs via le script.
-* Publier ou effectuer des commits (les commits sont globaux, la commande "git add ." est toujours utilisée pour l'instant), effectuer des releases ou exécuter des workflows sur un projet.
+* Effectuer, publier ou supprimer (localement) des commits (les commits sont globaux, la commande "git add ." est toujours utilisée pour l'instant), effectuer ou supprimer des releases ou exécuter des workflows sur un projet.
 * Obtenir les logs, aller sur la page web du projet ou de sa dernière releases, afficher un workflow ou son log, synchroniser la version local avec la version distante du projet.
 * Uploader des fichiers via FTP (gestion de profiles de serveur FTP incluse).
 * Obtenir le SHA256 d'un fichier.

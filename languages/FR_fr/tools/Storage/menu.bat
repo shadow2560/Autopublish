@@ -90,9 +90,11 @@ echo Que souhaitez-vous faire?
 echo.
 echo 1: Faire un changement sur le projet et le publier ^(exécute aussi la commande "git add ."^)
 echo 2: Publier une release du projet  ^(Cré également le tag associé^)
-echo 3: Lancer un workflow manuellement ^(L'évènement "workflow_dispatch" doit être configuré dans le workflow à exécuter^)
-echo 4: Faire un changement sur le projet local sans le publier ^(exécute aussi la commande "git add ."^)
-echo 5: Publier les changements du projet local
+echo 3: Supprimer une release
+echo 4: Lancer un workflow manuellement ^(L'évènement "workflow_dispatch" doit être configuré dans le workflow à exécuter^)
+echo 5: Faire un changement sur le projet local sans le publier ^(exécute aussi la commande "git add ."^)
+echo 6: Supprimer des commits locaux
+echo 7: Publier les changements du projet local
 echo N'importe quel autre choix: Revenir au menu précédent
 echo.
 set /p action_choice=Entrez le numéro correspondant à l'action à faire: 
@@ -157,6 +159,18 @@ goto:eof
 echo Une erreur s'est produite durant le commit du projet local, la publication des derniers changements ne peut pas continuer.
 goto:eof
 
+:set_commits_number_to_del
+set /p n_commits_to_del=Entrez le nombre de commits à supprimer, laisser vide pour revenir au menu précédent: 
+goto:eof
+
+:n_commits_to_del_char_error
+echo Un caractère non autorisé a été saisie pour le nombre de commits.
+goto:eof
+
+:set_commit_files_reset
+set /p commit_files_reset=Souhaitez-vous également supprimer les modifications faites aux fichiers impactés par ces commits à supprimer, laisser vide pour revenir au menu précédent? ^(%lng_yes_choice%/%lng_no_choice%^): 
+goto:eof
+
 :set_tag_number
 set /p tag_number=Version du tag de la release, laisser vide pour revenir au menu principal ou entrez 0 pour voir la liste des tags du projet: "
 goto:eof
@@ -199,6 +213,14 @@ goto:eof
 
 :upload_file_choice_send_success
 echo Envoi du fichier "%up_file_path%" effectué.
+goto:eof
+
+:set_release_number_for_release_del
+set /p tag_number=Version de la release à supprimer, laisser vide pour revenir au menu principal ou entrez 0 pour voir la liste des releases du projet: "
+goto:eof
+
+:release_remote_del_error
+echo La release n'existe pas ou une erreur s'est produite durant la suppression de la release.
 goto:eof
 
 :intro_select_profile

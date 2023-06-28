@@ -188,14 +188,16 @@ call "%associed_language_script%" "display_title"
 call "%associed_language_script%" "display_modifs_menu"
 IF "%action_choice%"=="1" goto:make_and_publish_changes
 IF "%action_choice%"=="2" goto:publish_release
-if "%action_choice%"=="3" (
+IF "%action_choice%"=="3" goto:del_release
+if "%action_choice%"=="4" (
 	cd /d "%git_project_local_path%"
 	"%script_base_path%tools\gh\gh.exe" workflow run
 	pause
 	goto:project_modifs_menu
 )
-if "%action_choice%"=="4" goto:make_local_changes
-if "%action_choice%"=="5" goto:publish_changes
+if "%action_choice%"=="5" goto:make_local_changes
+if "%action_choice%"=="6" goto:del_commits
+if "%action_choice%"=="7" goto:publish_changes
 goto:define_action_choice
 
 :make_local_changes
@@ -270,6 +272,42 @@ git push
 if %errorlevel% NEQ 0 (
 	git reset "head~1"
 	call "%associed_language_script%" "push_error"
+)
+pause
+goto:project_modifs_menu
+
+:del_commits
+set n_commits_to_del=
+call "%associed_language_script%" "set_commits_number_to_del"
+if "%n_commits_to_del%"=="" goto:project_modifs_menu
+call tools\Storage\functions\strlen.bat nb "%n_commits_to_del%"
+set i=0
+:check_chars_n_commits_to_del
+IF %i% LSS %nb% (
+	set check_chars=0
+	FOR %%z in (0 1 2 3 4 5 6 7 8 9) do (
+		IF "!n_commits_to_del:~%i%,1!"=="%%z" (
+			set /a i+=1
+			set check_chars=1
+			goto:check_chars_n_commits_to_del
+		)
+	)
+	IF "!check_chars!"=="0" (
+		call "%associed_language_script%" "n_commits_to_del_char_error"
+		pause
+		goto:define_filename
+	)
+)
+set commit_files_reset=
+call "%associed_language_script%" "set_commit_files_reset"
+if "%commit_files_reset%"=="" goto:project_modifs_menu
+set commit_files_reset=%commit_files_reset:~0,1%
+call "%script_base_path%tools\Storage\functions\modify_yes_no_always_never_vars.bat" "commit_files_reset" "o/n_choice"
+cd /d "%git_project_local_path%"
+if /i "%commit_files_reset%"=="o" (
+	git reset --hard --recurse-submodules "head~%n_commits_to_del%"
+) else (
+	git reset "head~%n_commits_to_del%"
 )
 pause
 goto:project_modifs_menu
@@ -351,6 +389,28 @@ if %errorlevel% NEQ 0 (
 	call "%associed_language_script%" "upload_file_choice_send_success"
 )
 exit /b
+
+:del_release
+cd /d "%git_project_local_path%"
+:set_tag_number_for_release_delete
+set tag_number=
+call "%associed_language_script%" "set_release_number_for_release_del"
+if "%tag_number%"=="0" (
+	"%script_base_path%tools\gh\gh.exe" release  list
+	pause
+	goto:set_tag_number_for_release_delete
+)
+if "%tag_number%"=="" goto:project_modifs_menu
+"%script_base_path%tools\gh\gh.exe" release  delete "%tag_number%" --cleanup-tag  -y
+if %errorlevel% NEQ 0 (
+	call "%associed_language_script%" "release_remote_del_error"
+	pause
+	goto:project_modifs_menu
+) else (
+	git tag -d "%tag_number%"
+)
+pause
+goto:project_modifs_menu
 
 :settings
 set action_choice=
