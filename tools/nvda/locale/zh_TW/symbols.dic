@@ -1,8 +1,7 @@
-﻿#locale/ZH-TW/symbols.dic
-#A part of NonVisual Desktop Access (NVDA)
-#Copyright (c) 2011-2017 NVDA Contributors
-#This file is covered by the GNU General Public License.
-#Edited by NVDA-Taiwan Volunteers Team
+﻿# A part of NonVisual Desktop Access (NVDA)
+# Copyright (c) 2011-2024 NVDA Contributors
+# This file is covered by the GNU General Public License.
+# Edited by NVDA-Taiwan Volunteers Team on 2024/09/25
 # 在本檔案內，當一個符號的解釋出現多音字（或破音字）時，為使其報讀正確，得用另一同音字代替，以避免混淆。
 
 complexSymbols:
@@ -14,6 +13,9 @@ complexSymbols:
 # Phrase endings.
 ; phrase ending	(?<=[^\s;]);(?=\s|$)
 : phrase ending	(?<=[^\s:]):(?=\s|$)
+# 用於視覺呈現的連續點 (例如用於目錄中)
+multiple .	\.{4,}
+
 # Others
 decimal point	(?<![^\d -])\.(?=\d)
 in-word '	(?<=[^\W_])['’]
@@ -28,6 +30,7 @@ symbols:
 ? sentence ending	半形問號	all	always
 ; phrase ending	semi	most	always
 : phrase ending	colon	most	always
+multiple .	多個點	all	always
 decimal point		none	always
 in-word '	tick	all	norep
 negative number	負	none	norep
@@ -62,7 +65,7 @@ $	錢號	all	norep
 *	star	some
 ,	comma	all	always
 ،	阿拉伯逗號	all	always
--	dash	most
+-	dash	most	always
 .	dot	some
 /	slash	some
 :	colon	most	norep
@@ -125,8 +128,8 @@ _	半形底線	most
 ♦	實心方塊	some
 §	章節符號	all
 °	度	some
-«	double left pointing angle bracket	none
-»	double right pointing angle bracket	none
+«	double left pointing angle bracket	most	always
+»	double right pointing angle bracket	most	always
 µ	micro	some
 ⁰	上標0	some
 ¹	上標1	some
@@ -338,7 +341,7 @@ _	半形底線	most
 ℵ	aleph number	none
 ℶ	beth number	none
 
-# Vulgur Fractions U+2150 to U+215E
+# Vulgar Fractions U+2150 to U+215E
 ½	二分之一	none
 ⅓	三分之一	none
 ⅔	三分之二	none
@@ -360,6 +363,7 @@ _	半形底線	most
 
 # Miscellaneous Technical
 ⌘	Mac Command 鍵	none
+⌥	mac Option 鍵	none
 
 # 中文標點
 　	全形空格	all
@@ -415,7 +419,7 @@ _	半形底線	most
 〖	空心左粗中括號	most	always
 〗	空心右粗中括號	most	always
 ＃	井字號	most
-—	連接號	most
+—	連接號	most	always
 ＆	全形 and 符號	most
 ＊	星號	most
 ※	重點符號	most
@@ -525,75 +529,397 @@ _	半形底線	most
 Ｚ	Z	none
 
 # 不成字部首
-辶	綽	none
-# 點字符號 (Add 64braille symbols) 
-⠀	點字空格	all
-⠁	點字第一點	all
-⠂	點字第二點	all
-⠃	點字一、二點	all
-⠄	點字第三點	all
-⠅	點字一、三點	all
-⠆	點字二、三點	all
-⠇	點字一、二、三點	all
-⠈	點字第四點	all
-⠉	點字一、四點	all
-⠊	點字二、四點	all
-⠋	點字一、二、四點	all
-⠌	點字三、四點	all
-⠍	點字一、三、四點	all
-⠎	點字二、三、四點	all
-⠏	點字一、二、三、四點	all
-⠐	點字第五點	all
-⠑	點字一、五點	all
-⠒	點字二、五點	all
-⠓	點字一、二、五點	all
-⠔	點字三、五點	all
-⠕	點字一、三、五點	all
-⠖	點字二、三、五點	all
-⠗	點字一、二、三、五點	all
-⠘	點字四、五點	all
-⠙	點字一、四、五點	all
-⠚	點字二、四、五點	all
-⠛	點字一、二、四、五點	all
-⠜	點字三、四、五點	all
-⠝	點字一、三、四、五點	all
-⠞	點字二、三、四、五點	all
-⠟	點字一、二、三、四、五點	all
-⠠	點字第六點	all
-⠡	點字一、六點	all
-⠢	點字二、六點	all
-⠣	點字一、二、六點	all
-⠤	點字三、六點	all
-⠥	點字一、三、六點	all
-⠦	點字二、三、六點	all
-⠧	點字一、二、三、六點	all
-⠨	點字四、六點	all
-⠩	點字一、四、六點	all
-⠪	點字二、四、六點	all
-⠫	點字一、二、四、六點	all
-⠬	點字三、四、六點	all
-⠭	點字一、三、四、六點	all
-⠮	點字二、三、四、六點	all
-⠯	點字一、二、三、四、六點	all
-⠰	點字五、六點	all
-⠱	點字一、五、六點	all
-⠲	點字二、五、六點	all
-⠳	點字一、二、五、六點	all
-⠴	點字三、五、六點	all
-⠵	點字一、三、五、六點	all
-⠶	點字二、三、五、六點	all
-⠷	點字一、二、三、五、六點	all
-⠸	點字四、五、六點	all
-⠹	點字一、四、五、六點	all
-⠺	點字二、四、五、六點	all
-⠻	點字一、二、四、五、六點	all
-⠼	點字三、四、五、六點	all
-⠽	點字一、三、四、五、六點	all
-⠾	點字二、三、四、五、六點	all
-⠿	點字一、二、三、四、五、六點	all
+丨	滾	none
+丶	主	none
+乚	乙	none
+亻	人	none
+冂	扃	none
+冖	密	none
+冫	冰	none
+凵	砍	none
+刂	刀	none
+卩	節	none
+宀	棉	none
+尢	汪	none
+忄	心	none
+扌	手	none
+氵	水	none
+犭	犬	none
+攴	撲	none
+攵	撲	none
+爿	牆	none
+辶	輟	none
+歺	傣	none
+疒	床	none
+罒	往	none
+糹	密	none
+虍	呼	none
+辵	輟	none
+镸	常	none
+黽	敏	none
 
-# 以下的「中日韓相容表意文字」，每個字的外觀與該字的詞解字相同，或近似，但內碼不同。
-# 了解這些字僅是因為目前微軟的TTS無法讀出，目前暫時加入，未來（2020/12/31問題解決後，將會移除
+# 點字符號 (Add 64braille symbols) 
+⠀	點字空格
+⠁	點字第一點
+⠂	點字第二點
+⠃	點字一二點
+⠄	點字第三點
+⠅	點字一三點
+⠆	點字二三點
+⠇	點字一二三點
+⠈	點字第四點
+⠉	點字一四點
+⠊	點字二四點
+⠋	點字一二四點
+⠌	點字三四點
+⠍	點字一三四點
+⠎	點字二三四點
+⠏	點字一二三四點
+⠐	點字第五點
+⠑	點字一五點
+⠒	點字二五點
+⠓	點字一二五點
+⠔	點字三五點
+⠕	點字一三五點
+⠖	點字二三五點
+⠗	點字一二三五點
+⠘	點字四五點
+⠙	點字一四五點
+⠚	點字二四五點
+⠛	點字一二四五點
+⠜	點字三四五點
+⠝	點字一三四五點
+⠞	點字二三四五點
+⠟	點字一二三四五點
+⠠	點字第六點
+⠡	點字一六點
+⠢	點字二六點
+⠣	點字一二六點
+⠤	點字三六點
+⠥	點字一三六點
+⠦	點字二三六點
+⠧	點字一二三六點
+⠨	點字四六點
+⠩	點字一四六點
+⠪	點字二四六點
+⠫	點字一二四六點
+⠬	點字三四六點
+⠭	點字一三四六點
+⠮	點字二三四六點
+⠯	點字一二三四六點
+⠰	點字五六點
+⠱	點字一五六點
+⠲	點字二五六點
+⠳	點字一二五六點
+⠴	點字三五六點
+⠵	點字一三五六點
+⠶	點字二三五六點
+⠷	點字一二三五六點
+⠸	點字四五六點
+⠹	點字一四五六點
+⠺	點字二四五六點
+⠻	點字一二四五六點
+⠼	點字三四五六點
+⠽	點字一三四五六點
+⠾	點字二三四五六點
+⠿	點字一二三四五六點
+⡀	點字第七點
+⡁	點字一七點
+⡂	點字二七點
+⡃	點字一二七點
+⡄	點字三七點
+⡅	點字一三七點
+⡆	點字二三七點
+⡇	點字一二三七點
+⡈	點字四七點
+⡉	點字一四七點
+⡊	點字二四七點
+⡋	點字一二四七點
+⡌	點字三四七點
+⡍	點字一三四七點
+⡎	點字二三四七點
+⡏	點字一二三四七點
+⡐	點字五七點
+⡑	點字一五七點
+⡒	點字二五七點
+⡓	點字一二五七點
+⡔	點字三五七點
+⡕	點字一三五七點
+⡖	點字二三五七點
+⡗	點字一二三五七點
+⡘	點字四五七點
+⡙	點字一四五七點
+⡚	點字二四五七點
+⡛	點字一二四五七點
+⡜	點字三四五七點
+⡝	點字一三四五七點
+⡞	點字二三四五七點
+⡟	點字一二三四五七點
+⡠	點字六七點
+⡡	點字一六七點
+⡢	點字二六七點
+⡣	點字一二六七點
+⡤	點字三六七點
+⡥	點字一三六七點
+⡦	點字二三六七點
+⡧	點字一二三六七點
+⡨	點字四六七點
+⡩	點字一四六七點
+⡪	點字二四六七點
+⡫	點字一二四六七點
+⡬	點字三四六七點
+⡭	點字一三四六七點
+⡮	點字二三四六七點
+⡯	點字一二三四六七點
+⡰	點字五六七點
+⡱	點字一五六七點
+⡲	點字二五六七點
+⡳	點字一二五六七點
+⡴	點字三五六七點
+⡵	點字一三五六七點
+⡶	點字二三五六七點
+⡷	點字一二三五六七點
+⡸	點字四五六七點
+⡹	點字一四五六七點
+⡺	點字二四五六七點
+⡻	點字一二四五六七點
+⡼	點字三四五六七點
+⡽	點字一三四五六七點
+⡾	點字二三四五六七點
+⡿	點字一二三四五六七點
+⢀	點字第八點
+⢁	點字一八點
+⢂	點字二八點
+⢃	點字一二八點
+⢄	點字三八點
+⢅	點字一三八點
+⢆	點字二三八點
+⢇	點字一二三八點
+⢈	點字四八點
+⢉	點字一四八點
+⢊	點字二四八點
+⢋	點字一二四八點
+⢌	點字三四八點
+⢍	點字一三四八點
+⢎	點字二三四八點
+⢏	點字一二三四八點
+⢐	點字五八點
+⢑	點字一五八點
+⢒	點字二五八點
+⢓	點字一二五八點
+⢔	點字三五八點
+⢕	點字一三五八點
+⢖	點字二三五八點
+⢗	點字一二三五八點
+⢘	點字四五八點
+⢙	點字一四五八點
+⢚	點字二四五八點
+⢛	點字一二四五八點
+⢜	點字三四五八點
+⢝	點字一三四五八點
+⢞	點字二三四五八點
+⢟	點字一二三四五八點
+⢠	點字六八點
+⢡	點字一六八點
+⢢	點字二六八點
+⢣	點字一二六八點
+⢤	點字三六八點
+⢥	點字一三六八點
+⢦	點字二三六八點
+⢧	點字一二三六八點
+⢨	點字四六八點
+⢩	點字一四六八點
+⢪	點字二四六八點
+⢫	點字一二四六八點
+⢬	點字三四六八點
+⢭	點字一三四六八點
+⢮	點字二三四六八點
+⢯	點字一二三四六八點
+⢰	點字五六八點
+⢱	點字一五六八點
+⢲	點字二五六八點
+⢳	點字一二五六八點
+⢴	點字三五六八點
+⢵	點字一三五六八點
+⢶	點字二三五六八點
+⢷	點字一二三五六八點
+⢸	點字四五六八點
+⢹	點字一四五六八點
+⢺	點字二四五六八點
+⢻	點字一二四五六八點
+⢼	點字三四五六八點
+⢽	點字一三四五六八點
+⢾	點字二三四五六八點
+⢿	點字一二三四五六八點
+⣀	點字七八點
+⣁	點字一七八點
+⣂	點字二七八點
+⣃	點字一二七八點
+⣄	點字三七八點
+⣅	點字一三七八點
+⣆	點字二三七八點
+⣇	點字一二三七八點
+⣈	點字四七八點
+⣉	點字一四七八點
+⣊	點字二四七八點
+⣋	點字一二四七八點
+⣌	點字三四七八點
+⣍	點字一三四七八點
+⣎	點字二三四七八點
+⣏	點字一二三四七八點
+⣐	點字五七八點
+⣑	點字一五七八點
+⣒	點字二五七八點
+⣓	點字一二五七八點
+⣔	點字三五七八點
+⣕	點字一三五七八點
+⣖	點字二三五七八點
+⣗	點字一二三五七八點
+⣘	點字四五七八點
+⣙	點字一四五七八點
+⣚	點字二四五七八點
+⣛	點字一二四五七八點
+⣜	點字三四五七八點
+⣝	點字一三四五七八點
+⣞	點字二三四五七八點
+⣟	點字一二三四五七八點
+⣠	點字六七八點
+⣡	點字一六七八點
+⣢	點字二六七八點
+⣣	點字一二六七八點
+⣤	點字三六七八點
+⣥	點字一三六七八點
+⣦	點字二三六七八點
+⣧	點字一二三六七八點
+⣨	點字四六七八點
+⣩	點字一四六七八點
+⣪	點字二四六七八點
+⣫	點字一二四六七八點
+⣬	點字三四六七八點
+⣭	點字一三四六七八點
+⣮	點字二三四六七八點
+⣯	點字一二三四六七八點
+⣰	點字五六七八點
+⣱	點字一五六七八點
+⣲	點字二五六七八點
+⣳	點字一二五六七八點
+⣴	點字三五六七八點
+⣵	點字一三五六七八點
+⣶	點字二三五六七八點
+⣷	點字一二三五六七八點
+⣸	點字四五六七八點
+⣹	點字一四五六七八點
+⣺	點字二四五六七八點
+⣻	點字一二四五六七八點
+⣼	點字三四五六七八點
+⣽	點字一三四五六七八點
+⣾	點字二三四五六七八點
+⣿	點字一二三四五六七八點
+
+# 以下為「中日韓統一表意文字」
+敻	詗	none
+㚬	軍	none
+䧟	陷	none
+𪹚	棒	none
+
+# 化學用字
+# 有些罕用字需安裝支援的字型才能正常顯示。
+㖕	辛	none
+㖠	奈	none
+㗁	咢	none
+䏲	悌	none
+䓝	孟	none
+䓬	卓	none
+䥑	麥	none
+吖	鴉	none
+呔	太	none
+呠	本	none
+呤	鈴	none
+呾	旦	none
+咁	甘	none
+咹	安	none
+哢	弄	none
+唍	完	none
+啿	堪	none
+嗏	茶	none
+嘌	飄	none
+噻	賽	none
+垻	貝	none
+氬	亞	none
+氰	青	none
+甾	玆	none
+砈	厄	none
+肟	污	none
+胂	申	none
+胜	生	none
+胲	亥	none
+胺	安	none
+脎	殺	none
+腈	青	none
+膦	磷	none
+芘	比	none
+芪	氏	none
+苝	北	none
+苨	尼	none
+茋	底	none
+茬	在	none
+萉	肥	none
+薁	奧	none
+釙	破	none
+鈀	巴	none
+鈇	夫	none
+鈷	姑	none
+鈽	布	none
+鈾	又	none
+鉨	你	none
+鉭	旦	none
+鉮	申	none
+銻	替	none
+鋞	徑	none
+鋶	流	none
+鋽	卓	none
+錪	典	none
+鍗	帝	none
+鎝	塔	none
+鿫	澳	none
+鿬	田	none
+𠮻	久	none
+𠮿	山	none
+𠯤	井	none
+𠰌	末	none
+𠰐	剖	none
+𠰢	半	none
+𠳭	克	none
+𠷬	練	none
+𦭌	卡	none
+𦭽	伊	none
+𦯉	伯	none
+𦸽	黑	none
+𦺻	傘	none
+𨠴	西	none
+𨥙	井	none
+𨦡	羊	none
+𨧀	杜	none
+𨨏	波	none
+𨭆	黑	none
+𨭎	喜	none
+𪡓	昆	none
+𫩒	巾	none
+𬜢	久	none
+𬜴	快	none
+𭈻	星	none
+𮠺	帝	none
+𱽕	叨	none
+𱽖	申	none
+𱽥	米	none
+𱾝	椎	none
+𲆦	矽	none
+𲆩	松	none
+𲆰	錫	none
+𲆱	朋	none
+𲆳	品	none
+
+# 以下為「中日韓相容表意文字」，每個字的外觀與該字的詞解字相同，或近似，但內碼不同。
 豈	豈	none
 更	更	none
 車	車	none
@@ -948,7 +1274,7 @@ _	半形底線	most
 恵	恵	none
 舘	舘	none
 
-#康熙部首
+# 康熙部首
 ⼀	一	none
 ⼁	丨	none
 ⼂	丶	none
@@ -1163,4 +1489,4 @@ _	半形底線	most
 ⿓	龍	none
 ⿔	龜	none
 ⿕	龠	none
-#End of file
+# End of file

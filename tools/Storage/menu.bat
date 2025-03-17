@@ -31,6 +31,8 @@ mkdir templogs
 call "%associed_language_script%" "display_title"
 call "%associed_language_script%" "display_app_infos_during_first_verifications"
 :test_git_installation
+::git -v >nul 2>&1
+::if %errorlevel% NEQ 0 set path=%script_base_path%tools\PortableGit\cmd;%path%
 git -v >nul 2>&1
 if %errorlevel% NEQ 0 (
 	call "%associed_language_script%" "git_must_be_installed"
@@ -77,6 +79,7 @@ if %errorlevel% NEQ 0 (
 	pause
 	goto:end_script
 )
+call :get_active_branch
 
 :define_action_choice
 cd /d "%script_base_path%"
@@ -85,6 +88,10 @@ cls
 call "%associed_language_script%" "display_title"
 call "%associed_language_script%" "display_menu"
 IF "%action_choice%"=="0" goto:launch_doc
+IF "%action_choice%"=="00" (
+	call :open_project_folder_in_explorer
+	goto:define_action_choice
+)
 IF "%action_choice%"=="1" goto:project_auth_menu
 IF "%action_choice%"=="2" goto:project_infos_menu
 IF "%action_choice%"=="3" goto:project_modifs_menu
@@ -106,8 +113,9 @@ IF "%action_choice%"=="8" goto:nvda_remote_control
 IF "%action_choice%"=="9" goto:settings
 IF "%action_choice%"=="10" goto:language_change
 IF "%action_choice%"=="11" goto:theme_change
-IF "%action_choice%"=="12" goto:about
-IF "%action_choice%"=="13" goto:donate
+IF "%action_choice%"=="12" goto:git_update
+IF "%action_choice%"=="13" goto:about
+IF "%action_choice%"=="14" goto:donate
 goto:end_script
 
 :project_auth_menu
@@ -198,6 +206,11 @@ if "%action_choice%"=="4" (
 if "%action_choice%"=="5" goto:make_local_changes
 if "%action_choice%"=="6" goto:del_commits
 if "%action_choice%"=="7" goto:publish_changes
+if "%action_choice%"=="8" goto:publish_all_changes
+if "%action_choice%"=="9" goto:branch_create
+if "%action_choice%"=="10" goto:branch_switch
+if "%action_choice%"=="11" goto:branch_delete
+if "%action_choice%"=="12" goto:publish_all_branches_changes
 goto:define_action_choice
 
 :make_local_changes
@@ -233,7 +246,32 @@ goto:project_modifs_menu
 
 :publish_changes
 cd /d "%git_project_local_path%"
-git push
+set force_push_choice=
+call "%associed_language_script%" "push_force_choice"
+set force_push_choice=%force_push_choice:~0,1%
+call "%script_base_path%tools\Storage\functions\modify_yes_no_always_never_vars.bat" "force_push_choice" "o/n_choice"
+if /i "%force_push_choice%"=="o" (
+	git push --force --branch %active_branch% 
+) else (
+	git push --branch %active_branch%
+)
+if %errorlevel% NEQ 0 (
+	call "%associed_language_script%" "push_error"
+)
+pause
+goto:project_modifs_menu
+
+:publish_all_changes
+cd /d "%git_project_local_path%"
+set force_push_choice=
+call "%associed_language_script%" "push_force_choice"
+set force_push_choice=%force_push_choice:~0,1%
+call "%script_base_path%tools\Storage\functions\modify_yes_no_always_never_vars.bat" "force_push_choice" "o/n_choice"
+if /i "%force_push_choice%"=="o" (
+	git push --force --all
+) else (
+	git push --all
+)
 if %errorlevel% NEQ 0 (
 	call "%associed_language_script%" "push_error"
 )
@@ -268,7 +306,7 @@ if %errorlevel% NEQ 0 (
 	pause
 	goto:project_modifs_menu
 )
-git push
+git push --branch %active_branch%
 if %errorlevel% NEQ 0 (
 	git reset "head~1"
 	call "%associed_language_script%" "push_error"
@@ -412,6 +450,96 @@ if %errorlevel% NEQ 0 (
 pause
 goto:project_modifs_menu
 
+:branch_create
+cd /d "%git_project_local_path%"
+:set_branch_name_create
+set branch_name=
+call "%associed_language_script%" "set_new_branch_name"
+if "%branch_name%"=="" (
+	call :get_active_branch
+	goto:project_modifs_menu
+)
+if "%branch_name%"=="0" (
+	git branch
+	goto:set_branch_name_create
+)
+set also_switch_on_branch=
+call "%associed_language_script%" "also_switch_branch_choice"
+IF NOT "%also_switch_on_branch%"=="" set also_switch_on_branch=%also_switch_on_branch:~0,1%
+call "%script_base_path%tools\Storage\functions\modify_yes_no_always_never_vars.bat" "also_switch_on_branch" "o/n_choice"
+if /i "%also_switch_on_branch%"=="o" (
+	git checkout -b %branch_name%
+) else (
+	git branch --create %branch_name%
+)
+if %errorlevel% NEQ 0 (
+	call "%associed_language_script%" "error_with_branch_creation"
+	pause
+	goto:project_modifs_menu
+)
+call :get_active_branch
+pause
+goto:project_modifs_menu
+
+:branch_switch
+cd /d "%git_project_local_path%"
+:set_branch_name_switch
+set branch_name=
+call "%associed_language_script%" "set_change_branch_name"
+if "%branch_name%"=="" (
+	call :get_active_branch
+	goto:project_modifs_menu
+)
+if "%branch_name%"=="0" (
+	git branch
+	goto:set_branch_name_switch
+)
+git checkout %branch_name%
+if %errorlevel% NEQ 0 (
+	call "%associed_language_script%" "branch_changing_error"
+	call :get_active_branch
+	pause
+	goto:project_modifs_menu
+)
+call :get_active_branch
+pause
+goto:project_modifs_menu
+
+:branch_delete
+cd /d "%git_project_local_path%"
+:set_branch_name_delete
+set branch_name=
+call "%associed_language_script%" "set_delete_branch_name"
+if "%branch_name%"=="" (
+	call :get_active_branch
+	goto:project_modifs_menu
+)
+if "%branch_name%"=="0" (
+	git branch
+	goto:set_branch_name_delete
+)
+git branch -d %branch_name%
+if %errorlevel% NEQ 0 (
+	call "%associed_language_script%" "branch_delete_error"
+	call :get_active_branch
+	pause
+	goto:project_modifs_menu
+)
+call :get_active_branch
+pause
+goto:project_modifs_menu
+
+:publish_all_branches_changes
+cd /d "%git_project_local_path%"
+git push --branches
+if %errorlevel% NEQ 0 (
+	call "%associed_language_script%" "branches_publish_error"
+	pause
+	goto:project_modifs_menu
+)
+pause
+goto:project_modifs_menu
+
 :settings
 set action_choice=
 echo.
@@ -443,6 +571,13 @@ set action_choice=
 echo.
 cls
 call tools\Storage\theme_selector.bat
+@echo off
+goto:define_action_choice
+::git_update
+set action_choice=
+echo.
+cls
+"%script_base_path%tools\git_installer\git_x86_installer.exe"
 @echo off
 goto:define_action_choice
 :about
@@ -542,7 +677,36 @@ if %errorlevel% NEQ 200 goto:while_profile_not_selected
 call "%profile_path%"
 exit /b
 
+:get_active_branch
+set active_branch=
+git branch >"%script_base_path%templogs\temp_branches.txt"
+if %errorlevel% NEQ 0 (
+	call "%associed_language_script%" "first_no_active_branch_found"
+	pause
+	del /q "%script_base_path%templogs\temp_branches.txt"
+	goto:end_script
+)
+set /a temp_count=1
+:while_get_active_branch
+"%script_base_path%tools\gnuwin32\bin\sed.exe" -n %temp_count%p <"%script_base_path%templogs\temp_branches.txt" >"%script_base_path%templogs\tempvar.txt"
+if %errorlevel% NEQ 0 (
+	call "%associed_language_script%" "second_no_active_branch_found"
+	pause
+	del /q "%script_base_path%templogs\temp_branches.txt"
+	goto:end_script
+)
+set /p temp_branch=<"%script_base_path%templogs\tempvar.txt"
+if "%temp_branch:~0,1%"=="*" set active_branch=%temp_branch:~2% & del /q "%script_base_path%templogs\temp_branches.txt" & exit /b
+set /a temp_count=%temp_count%+1
+goto:while_get_active_branch
+exit /b
+
+:open_project_folder_in_explorer
+explorer.exe "%git_project_local_path%"
+exit /b
+
 :end_script
+cd /d "%script_base_path%"
 IF EXIST templogs (
 	del /q templogs 2>nul
 	rmdir /s /q templogs 2>nul

@@ -28,9 +28,11 @@ echo 8: Permettre le contrôle à distance de cet ordinateur via NVDA et Nvdarem
 echo 9: Sauvegarde/restauration et paramètres du script
 echo 10: Changer de langue
 echo 11: Changer de thème
-echo 12: A propos du script
-echo 13: Me faire une donation
+echo 12: Installer/mettre à jour Git ^(version X86 seulement, ne pas utiliser si vous avez installé manuellement Git en version X64^)
+echo 13: A propos du script
+echo 14: Me faire une donation
 echo 0: Lancer la documentation ^(recommandé^)
+echo 00: Ouvrir le dossier du projet dans l'explorateur de fichiers
 echo N'importe quel autre choix: Quitter sans rien faire
 echo.
 set /p action_choice=Entrez le numéro correspondant à l'action à faire: 
@@ -94,7 +96,12 @@ echo 3: Supprimer une release
 echo 4: Lancer un workflow manuellement ^(L'évènement "workflow_dispatch" doit être configuré dans le workflow à exécuter^)
 echo 5: Faire un changement sur le projet local sans le publier ^(exécute aussi la commande "git add ."^)
 echo 6: Supprimer des commits locaux
-echo 7: Publier les changements du projet local
+echo 7: Publier les changements de la branche active du projet local
+echo 8: Publier tous les changements du projet
+echo 9: Créer une branche
+echo 10: Switcher de branche
+echo 11: Supprimer une branche
+echo 12: Publier tous les changements liés aux branches
 echo N'importe quel autre choix: Revenir au menu précédent
 echo.
 set /p action_choice=Entrez le numéro correspondant à l'action à faire: 
@@ -145,6 +152,10 @@ goto:eof
 
 :commit_add_error_local_adds
 echo Une erreur s'est produite durant le commit du projet local.
+goto:eof
+
+:push_force_choice
+set /p force_push_choice=Souhaitez-vous forcer la publication des changements ^(peut briser certains forks ou pull requests ouvertes^) ^(o/n^): 
 goto:eof
 
 :push_error
@@ -223,6 +234,38 @@ goto:eof
 echo La release n'existe pas ou une erreur s'est produite durant la suppression de la release.
 goto:eof
 
+:set_new_branch_name
+set /p branch_name=Quel est le nom de la branche à créer ^(laisser vide pour annuler, entrer 0 pour lister les branches existantes^): 
+goto:eof
+
+:also_switch_branch_choice
+set /p also_switch_on_branch=Souhaitez-vous switcher vers cette branche également ^(o/n^): 
+goto:eof
+
+:error_with_branch_creation
+echo Erreur durant la création de la branche.
+goto:;eof
+
+:set_change_branch_name
+set /p branch_name=Quel est le nom de la branche sur laquelle switcher ^(laisser vide pour annuler, entrer 0 pour lister les branches existantes^): 
+goto:eof
+
+:branch_changing_error
+echo Erreur durant le changement de branche.
+goto:eof
+
+:set_delete_branch_name
+set /p branch_name=Quel est le nom de la branche à supprimer ^(laisser vide pour annuler, entrer 0 pour lister les branches existantes^): 
+goto:eof
+
+:branch_delete_error
+echo Erreur durant la suppression de la branche, le nom est peut-être incorrect ou il s'agit de la branche active du projet.
+goto:eof
+
+:branches_publish_error
+echo Erreur durant la publication des changements des branches.
+goto:eof
+
 :intro_select_profile
 echo Sélectionner un profile:
 goto:eof
@@ -236,4 +279,14 @@ goto:eof
 
 :select_profile_to_apply
 echo Sélection du projet à gérer durant le script:
+goto:eof
+
+:first_no_active_branch_found
+echo Aucune branche active trouvée durant la récupération des branches du projet, le projet est probablement mal configuré.
+echo Pour des raisons de sécurité le script va se fermer.
+goto:eof
+
+:second_no_active_branch_found
+echo Aucune branche active trouvée durant la vérification des branches du projet, le projet est probablement mal configuré.
+echo Pour des raisons de sécurité le script va se fermer.
 goto:eof

@@ -9,7 +9,6 @@
 <li><a target="_blank" href="https://curl.haxx.se/windows/">Curl for Windows</a></li>
 <li>GNU Win32 tools (Md5sum, Cut, DiffUtils, FindUtils, Grep, Head, Sed, split, Tail, Wc, Dd, Fdisk, Ls): See <a target="_blank" href="http://gnuwin32.sourceforge.net/">This page</a>. For Sed, see <a target="_blank" href="https://github.com/mbuilov/sed-windows/">this page</a>. For Split, dd and ls they come from portable Git, see <a target="_blank" href="https://git-scm.com/download/win">this page</a> and also thanks to  MSYS devs for the GNU tools that they have ported to Windows like fdisk.</li>
 <li><a target="_blank" href="https://github.com/nvaccess/nvda">NVDA</a> and <a target="_blank" href="https://github.com/NVDARemote/NVDARemote">NVDARemote</a> and <a target="_blank" href="https://github.com/jmdaweb/NVDARemoteServer">NVDARemoteServer</a></li>
-<li>SVN et gitget: <a target="_blank" href="https://www.smartsvn.com/download/">this page</a> for SVN 32-bit bundle and <a target="_blank" href="https://gist.github.com/divs1210/973493941a82b28f0d4a">this page</a> for gitget but I have modified it to be fully portable with the SVN 32-bit Bundle</li>
 <li><a target="_blank" href="https://eternallybored.org/misc/wget/">Wget</a></li>
 <li><a target="_blank" href="https://winscp.net/eng/downloads.php">WinSCP</a> and especialy this page for <a target="_blank" href="https://winscp.net/eng/docs/scripting">WinSCP script automation</a></li>
 </ul>

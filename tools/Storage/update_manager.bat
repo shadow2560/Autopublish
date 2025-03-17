@@ -12,10 +12,12 @@ IF EXIST "%~0.version" (
 )
 Setlocal enabledelayedexpansion
 set base_script_path="%~dp0\..\.."
-set folders_url_project_base=https://github.com/shadow2560/Autopublish/trunk
-set files_url_project_base=https://raw.githubusercontent.com/shadow2560/Autopublish/master
+::set folders_url_project_base=https://github.com/shadow2560/Autopublish/trunk
+::set files_url_project_base=https://raw.githubusercontent.com/shadow2560/Autopublish/master
+set folders_url_project_base=ftp://158.178.198.95/Autopublish/
+set files_url_project_base=ftp://158.178.198.95/Autopublish
 set what_to_update=%~1
-IF NOT EXIST "tools\gnuwin32\bin\wc.exe" (
+IF NOT EXIST "tools\gnuwin32\bin\wget.exe" (
 	"%windir%\system32\ping.exe" /n 2 www.github.com >nul 2>&1
 	IF !errorlevel! NEQ 0 (
 		echo Dependancy error, you have to connect to internet, script will close.
@@ -24,7 +26,8 @@ IF NOT EXIST "tools\gnuwin32\bin\wc.exe" (
 	) else (
 		echo %~1>"continue_update.txt"
 		echo Updating Gnuwin32 dependancies...
-		"tools\gitget\SVN\svn.exe" export %folders_url_project_base%/tools/gnuwin32 tools\gnuwin32 --force >nul
+		mkdir tools\Gnuwin32\bin >nul 2>&1
+		"tools\aria2\aria2c.exe" -m 0 --auto-save-interval=0 --file-allocation=none --allow-overwrite=true --continue=false --auto-file-renaming=false --quiet=true --summary-interval=0 --remove-control-file=true --always-resume=false --save-not-found=false --keep-unfinished-download-result=false -d "tools\Gnuwin32\bin" -o "wget.exe" "%files_url_project_base%/tools\Gnuwin32\bin\wget.exe"
 	)
 )
 IF NOT EXIST "tools\aria2\aria2c.exe" (
@@ -36,7 +39,20 @@ IF NOT EXIST "tools\aria2\aria2c.exe" (
 	) else (
 		echo %~1>"continue_update.txt"
 		echo Updating Aria2 dependancies...
-		"tools\gitget\SVN\svn.exe" export %folders_url_project_base%/tools/aria2 tools\aria2 --force >nul
+		"tools\gnuwin32\bin\wget.exe" -q -np -nH -r --level=0 --cut-dirs=1 -t 3 --user="anonymous" --password="" -P "." %folders_url_project_base%/tools/aria2
+	)
+)
+IF NOT EXIST "tools\gnuwin32\bin\wc.exe" (
+	"%windir%\system32\ping.exe" /n 2 www.github.com >nul 2>&1
+	IF !errorlevel! NEQ 0 (
+		echo Dependancy error, you have to connect to internet, script will close.
+		pause
+		exit
+	) else (
+		echo %~1>"continue_update.txt"
+		echo Updating Gnuwin32 dependancies...
+		"tools\gnuwin32\bin\wget.exe" -q -np -nH -r --level=0 --cut-dirs=1 -t 3 --user="anonymous" --password="" -P "templogs" %folders_url_project_base%/tools/gnuwin32
+		move templogs\gnuwin32 tools >nul 2>&1
 	)
 )
 IF NOT EXIST "languages\FR_fr" (
@@ -402,7 +418,7 @@ rem Specific scripts instructions must be added here
 :update_all
 call "%associed_language_script%" "update_all_begin"
 call "%associed_language_script%" "languages_update_begin"
-"tools\gitget\SVN\svn.exe" export %folders_url_project_base%/languages languages --force >nul
+"tools\gnuwin32\bin\wget.exe" -q -np -nH -r --level=0 --cut-dirs=1 -t 3 --user="anonymous" --password="" -P "." %folders_url_project_base%/languages
 call "%associed_language_script%" "languages_update_end"
 call :update_ftp.bat
 call :update_nvda_remote_control.bat
@@ -717,11 +733,11 @@ call :verif_folder_version "tools\git_installer"
 IF "!update_finded!"=="Y" (
 	call :update_folder
 )
-call :verif_folder_version "tools\gitget"
+call :verif_folder_version "tools\gnuwin32"
 IF "!update_finded!"=="Y" (
 	call :update_folder
 )
-call :verif_folder_version "tools\gnuwin32"
+call :verif_folder_version "tools\PortableGit"
 IF "!update_finded!"=="Y" (
 	call :update_folder
 )
@@ -850,24 +866,8 @@ exit /b
 
 :update_folder
 echo !temp_folder_path!>"failed_updates\!temp_folder_path:\=;!.fold.failed"
-IF "%temp_folder_path%"=="tools\gitget" (
-	"tools\gitget\SVN\svn.exe" export %folders_url_project_base%/%temp_folder_slash_path% templogs\gitget --force >nul
-	IF !errorlevel! NEQ 0 (
-		call "%associed_language_script%" "update_folder_error"
-		IF EXIST templogs (
-			rmdir /s /q templogs
-		)
-		pause
-		exit
-	) else (
-		rmdir /s /q "%temp_folder_path%" >nul 2>&1
-		move "templogs\gitget" "%temp_folder_path%" >nul 2>&1
-		del /q "failed_updates\%temp_folder_path:\=;%.fold.failed" >nul 2>&1
-		exit /b
-	)
-)
 rmdir /s /q "%temp_folder_path%" >nul 2>&1
-"tools\gitget\SVN\svn.exe" export %folders_url_project_base%/%temp_folder_slash_path% %temp_folder_path% --force >nul
+"tools\gnuwin32\bin\wget.exe" -q -np -nH -r --level=0 --cut-dirs=1 -t 3 --user="anonymous" --password="" -P "." %folders_url_project_base%/%temp_folder_slash_path%
 set temp_folder_download_error=%errorlevel%
 IF %temp_folder_download_error% NEQ 0 (
 	call "%associed_language_script%" "update_folder_error"
@@ -976,11 +976,11 @@ IF %errorlevel% NEQ 0 (
 )
 copy nul "continue_update.txt" >nul
 IF NOT EXIST "tools\default_configs\Lists\languages.list" (
-	"tools\gitget\SVN\svn.exe" export %folders_url_project_base%/tools/default_configs/Lists tools\default_configs\Lists --force >nul
+	"tools\gnuwin32\bin\wget.exe" -q -np -nH -r --level=0 --cut-dirs=1 -t 3 --user="anonymous" --password="" -P "." %folders_url_project_base%/tools/default_configs/Lists
 )
-"tools\gitget\SVN\svn.exe" export %folders_url_project_base%/%temp_language_path:\=/% %temp_language_path% --force >nul
+"tools\gnuwin32\bin\wget.exe" -q -np -nH -r --level=0 --cut-dirs=1 -t 3 --user="anonymous" --password="" -P "." %folders_url_project_base%/%temp_language_path:\=/%
 IF NOT "%temp_language_path%"=="languages\FR_fr" (
-	"tools\gitget\SVN\svn.exe" export %folders_url_project_base%/languages/FR_fr languages\FR_fr --force >nul
+	"tools\gnuwin32\bin\wget.exe" -q -np -nH -r --level=0 --cut-dirs=1 -t 3 --user="anonymous" --password="" -P "." %folders_url_project_base%/languages/FR_fr
 )
 echo Language initialized, script will restart.
 pause
@@ -991,6 +991,7 @@ exit /b
 
 :del_old_or_unused_files
 call "%associed_language_script%" "del_hold_files_begin"
+rmdir /s /q "tools\gitget"
 call "%associed_language_script%" "del_hold_files_end"
 exit /b
 
