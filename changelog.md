@@ -1,5 +1,10 @@
 <h1>Changelog Autopublish</h1>
 &nbsp;
+<h2>V1.0.4</h2>
+<ul>
+<li>Ajout de la possibilité de synchroniser avec la branche distante lors d'un changement de branche.</li>
+<li>Ajout d'une fonction permettant de fusionner une branche avec la branche active.</li>
+</ul>
 <h2>V1.0.3</h2>
 <ul>
 <li>Modification du gestionnaire de mises à jour pour qu'il n'utilise plus Gitget qui ne fonctionne plus. Les adresses pour les téléchargements ont aussi été modifiées.</li>

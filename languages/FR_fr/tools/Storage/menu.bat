@@ -102,6 +102,7 @@ echo 9: Créer une branche
 echo 10: Switcher de branche
 echo 11: Supprimer une branche
 echo 12: Publier tous les changements liés aux branches
+echo 13: Fusionner une branche avec la branche active
 echo N'importe quel autre choix: Revenir au menu précédent
 echo.
 set /p action_choice=Entrez le numéro correspondant à l'action à faire: 
@@ -250,6 +251,10 @@ goto:;eof
 set /p branch_name=Quel est le nom de la branche sur laquelle switcher ^(laisser vide pour annuler, entrer 0 pour lister les branches existantes^): 
 goto:eof
 
+:sync_with_remote_branch_choice
+set /p sync_with_remote_branch=Souhaitez-vous synchroniser avec la branche distante en même temps ^(attention, peut créer des soucis avec la suppression de répertoires et les sous-modules^) ^(o/n^): 
+goto:eof
+
 :branch_changing_error
 echo Erreur durant le changement de branche.
 goto:eof
@@ -260,6 +265,14 @@ goto:eof
 
 :branch_delete_error
 echo Erreur durant la suppression de la branche, le nom est peut-être incorrect ou il s'agit de la branche active du projet.
+goto:eof
+
+:set_merge_branch_name
+set /p branch_name=Quel est le nom de la branche à fusionner ^(laisser vide pour annuler, entrer 0 pour lister les branches existantes^): 
+goto:eof
+
+:branch_merge_error
+echo Erreur durant la fusion de la branche, le nom est peut-être incorrect ou il s'agit de la branche active du projet ou il est nécessaire de corriger des soucis pour que les fichiers puissent être fusionnés automatiquement.
 goto:eof
 
 :branches_publish_error

@@ -211,6 +211,7 @@ if "%action_choice%"=="9" goto:branch_create
 if "%action_choice%"=="10" goto:branch_switch
 if "%action_choice%"=="11" goto:branch_delete
 if "%action_choice%"=="12" goto:publish_all_branches_changes
+if "%action_choice%"=="13" goto:branch_merge
 goto:define_action_choice
 
 :make_local_changes
@@ -494,7 +495,15 @@ if "%branch_name%"=="0" (
 	git branch
 	goto:set_branch_name_switch
 )
-git checkout %branch_name%
+set sync_with_remote_branch=
+call "%associed_language_script%" "sync_with_remote_branch_choice"
+IF NOT "%sync_with_remote_branch%"=="" set sync_with_remote_branch=%sync_with_remote_branch:~0,1%
+call "%script_base_path%tools\Storage\functions\modify_yes_no_always_never_vars.bat" "sync_with_remote_branch" "o/n_choice"
+if /i "%sync_with_remote_branch%"=="o" (
+	git checkout -t origin/%branch_name%
+) else (
+	git checkout %branch_name%
+)
 if %errorlevel% NEQ 0 (
 	call "%associed_language_script%" "branch_changing_error"
 	call :get_active_branch
@@ -521,6 +530,30 @@ if "%branch_name%"=="0" (
 git branch -d %branch_name%
 if %errorlevel% NEQ 0 (
 	call "%associed_language_script%" "branch_delete_error"
+	call :get_active_branch
+	pause
+	goto:project_modifs_menu
+)
+call :get_active_branch
+pause
+goto:project_modifs_menu
+
+:branch_merge
+cd /d "%git_project_local_path%"
+:set_branch_name_delete
+set branch_name=
+call "%associed_language_script%" "set_merge_branch_name"
+if "%branch_name%"=="" (
+	call :get_active_branch
+	goto:project_modifs_menu
+)
+if "%branch_name%"=="0" (
+	git branch
+	goto:set_branch_name_delete
+)
+git merge %branch_name%
+if %errorlevel% NEQ 0 (
+	call "%associed_language_script%" "branch_merge_error"
 	call :get_active_branch
 	pause
 	goto:project_modifs_menu
